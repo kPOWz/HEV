@@ -1,16 +1,11 @@
 var map, placesService, resultList, infowindow;
-/*var placesService;
-var resultList;*/
 
 var infowindow;
 var resultsCount = 0;
-//var markers = [];
 
 var storeMarkers = [];
 var diningMarkers = [];
 var serviceMarkers = [];
-
-//createInfoWindows();
 
 function initialize() {
 
@@ -135,25 +130,12 @@ function callback(results, status, pagination, markers) {
 
 	createMarkers(results, markers);
   resultsCount += results.length;
-  //categorizePlaces(results); //remove
 
 	if (pagination.hasNextPage) {	 	
 	 	pagination.nextPage();
 	}else{
-    //var t = document.querySelector('#catTemplate');
-    //var catList = t.content.querySelector('#categories');
-    //remove
-    /*categories.forEach(function(category) { 
-      var li = document.createElement('li');
-      li.innerText = category[0] + "-" + category[1]; 
-      catList.appendChild(li);
-    });*/
     console.log(resultsCount);
     createInfoWindows(markers);
-    /*t.content.querySelector('#totalHevPlaces').innerText = resultsCount;
-    var mapCanvas = document.getElementById('map-canvas');
-    var clone = document.importNode(t.content, true);
-    mapCanvas.appendChild(clone);*/
   }
 }
 
@@ -161,9 +143,7 @@ function createMarkers(pagedResults, markers){
 	for (var i = 0; i < pagedResults.length; i++) {
     var place = pagedResults[i];
 		var marker = createMarker(place);
-    //markers.push({reference: place.reference, marker: marker});
     markers.push({markerId: marker.__gm_id, marker: marker, reference: place.reference})
-    //createMarkerInfoWindow(marker, place.reference);
   }
 }
 
@@ -270,31 +250,6 @@ function createInfoWindow(marker, placeReference){
       });
 
     });
-    /*var request = {
-      reference: placeReference
-    };
-    placesService.getDetails(request, function(place, status){
-      
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        if(place){
-          console.log(" ok for " + place.name + " with ref " + placeReference);
-        }else{
-          console.log(" ok no place ");
-        }
-          google.maps.event.addListener(marker, 'click', function() {
-            var marker = this;
-            infowindow.setContent(place.name);
-            infowindow.open(map, this);
-          });
-      }
-      else{
-        if(place){
-        console.log("not ok for " + place.name);
-        }else{
-          console.log("not ok no place for place w/ ref " + placeReference);
-        }
-      }
-  });*/
 }
 
 google.maps.event.addDomListener(window, 'load', initialize); 
