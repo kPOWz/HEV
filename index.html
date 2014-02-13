@@ -4,19 +4,36 @@
     <title>Historic East Village Business Map</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
-   <!-- TODO: does this have to be in the head -->
+    <link href="map.css" rel="stylesheet" type="text/css"></link>
+   <!-- TODO: does this have to be in the head? -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     <script src="map.js"></script>
   </head>
   <body>
-    <div id="map-canvas"></div>
+    <div id="map-canvas">
+      
+    </div>  
+
+    <!-- TODO: create template for marker info windows-->
+    <template id="templateInfoWindow">
+      <!-- fill in a list of categories & counts -->
+      <div id="map-overlay">
+        <img src="" alt="great image">
+        <div class="comment"><ul id="categories"></ul></div>
+        <div>total: <span id="totalHevPlaces"></span></div>
+      </div>
+    </template> 
+
+    <template id="templateCategories">
+      <!-- fill in a list of categories & counts -->
+      <div id="map-overlay">
+        <img src="" alt="great image">
+        <div class="comment"><ul id="categories"></ul></div>
+        <div>total: <span id="totalHevPlaces"></span></div>
+      </div>
+    </template>  
   </body>
 </html>
+
+
 

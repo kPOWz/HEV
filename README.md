@@ -1,7 +1,7 @@
 Historic East Village represented using experimental google maps API features 
 
 //TODO: figure out fill for buildings
-//TODO: atm, b-cycle, parking , restrooms  (custom overlays approach)
+//TODO: atm, b-cycle, parking , restrooms  (custom overlays approach), but stop would also be cool 
 //TODO: info windows on establishments called out in original map
 //TODO: some type of key for green, blue, pink
 //TODO: circles to squares ...

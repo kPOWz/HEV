@@ -1,0 +1,228 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"place",
+				"placeReference"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"tr",
+				"transform"
+			],
+			[
+				"is",
+				"isHiDPI"
+			],
+			[
+				"devi",
+				"devicePixelRatio"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"rel",
+				"reloadIcons"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/karrie/Sites/HEV/index.html",
+		"/Users/karrie/Sites/HEV/map.js",
+		"/Users/karrie/Sites/HEV/README.md",
+		"/Users/karrie/Sites/HEV/hev-logo.png",
+		"/Users/karrie/Sites/HEV/hev.kml",
+		"/Users/karrie/Sites/GoogleMapsPlacesService/request.js",
+		"/Users/karrie/Sites/GoogleMapsPlacesService/map.js",
+		"/Users/karrie/Sites/GoogleMapsPlacesService/map.css",
+		"/Users/karrie/Sites/GoogleMapsPlacesService/index.html",
+		"/Users/karrie/Sites/gyco/public/stylesheets/index.html",
+		"/Users/karrie/Sites/gyco/public/stylesheets/typography.less",
+		"/Users/karrie/Sites/gyco/public/stylesheets/variables.less",
+		"/Users/karrie/Sites/gyco/app.js",
+		"/Users/karrie/Sites/gyco/views/index.jade",
+		"/Users/karrie/Sites/modernUI/app.js",
+		"/Users/karrie/Sites/gyco/public/stylesheets/style.less",
+		"/Users/karrie/Sites/gyco/public/stylesheets/480.less",
+		"/Users/karrie/Sites/gyco/public/stylesheets/768.less",
+		"/Users/karrie/Sites/gyco/public/stylesheets/site.less",
+		"/Users/karrie/Sites/modernUI/public/stylesheets/styles.less",
+		"/Users/karrie/Sites/modernUI/node_modules/hammerjs/examples/drag.html",
+		"/Users/karrie/Sites/modernUI/node_modules/hammerjs/src/gestures.js",
+		"/Users/karrie/Sites/modernUI/package.json",
+		"/Users/karrie/Sites/modernUI/node_modules/enhance/lib/enhance.js",
+		"/Users/karrie/Sites/modernUI/public/stylesheets/styles.css",
+		"/Users/karrie/Sites/modernUI/views/index.mustache",
+		"/Users/karrie/Sites/phpinfo.php",
+		"/Users/karrie/Sites/modernUI/node_modules/enhance/README.md",
+		"/Users/karrie/Sites/modernUI/node_modules/enhance/index.js",
+		"/Users/karrie/Sites/modernUI/public/stylesheets/bootstrap.css",
+		"/Users/karrie/Sites/modernUI/public/javascripts/bootstrap.min.js"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"<i>",
+			"showIcons",
+			"window",
+			"matchmedia",
+			"img",
+			"showicons",
+			"enable_reload"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "hev.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/Sites/modernUI/package.json"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
