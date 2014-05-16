@@ -99,7 +99,6 @@ function initialize() {
   var tmp = document.createElement("div");
   tmp.appendChild(clone);
   tmp.index = 1;
-  tmp.className = 'select-map-category';
   tmp.id = 'select-container';
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(tmp);
 
