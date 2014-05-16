@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
     <title>Historic East Village Business Map</title>
@@ -10,28 +10,46 @@
     <script src="map.js"></script>
   </head>
   <body>
+
     <div id="map-canvas">
+
       
     </div>  
 
-    <!-- TODO: create template for marker info windows-->
+    <template id="templateSelectCategory">
+      <select id="select-cat" onchange="changeCategory(this)">
+        <option value="shop" title="explore shopping" selected>&nbsp&nbsp Shop</option> 
+        <option value="dine" title="explore dining" >&nbsp&nbsp Dine</option>
+        <option value="nightlife" title="explore nightlife">&nbsp&nbsp Nightlife</option>
+      </select>
+    </template> 
+
     <template id="templateInfoWindow">
-      <!-- fill in a list of categories & counts -->
-      <div id="map-overlay">
-        <img src="" alt="great image">
-        <div class="comment"><ul id="categories"></ul></div>
-        <div>total: <span id="totalHevPlaces"></span></div>
-      </div>
+        <div class="h-card">
+          <p class="p-name"></p>
+          <div class="p-tel tel">
+            <dt>Phone</dt>
+            <dd><a class="value phone"></a></dd>
+          </div>
+          <p class="p-adr h-adr">
+            <div class="p-street-address street-address" ></div>
+            <div class"p-extended-address extended-address"></div>
+          </p>
+        </div>
     </template> 
 
     <template id="templateCategories">
       <!-- fill in a list of categories & counts -->
-      <div id="map-overlay">
+      <div id="categories-list" class="map-overlay">
         <img src="" alt="great image">
         <div class="comment"><ul id="categories"></ul></div>
         <div>total: <span id="totalHevPlaces"></span></div>
       </div>
     </template>  
+
+    <script>
+      
+    </script>
   </body>
 </html>
 
