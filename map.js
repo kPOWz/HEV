@@ -1,7 +1,6 @@
 var map, placesService, resultList, infowindow;
 var requestStore, requestDining, requestService;
 
-var infowindow;
 var resultsCount = 0;
 var exceptions = ['AllSpice','New Oriental Food Store', 'Vanity & Glamour Cosmetics / VGCosmetic Makeup Artists', 'Plain Talk Books & Coffee', 'East Village Pantry']
 
@@ -260,18 +259,18 @@ function createInfoWindows(markers){
 function createInfoWindow(marker, placeReference){
   console.log("reference: " + placeReference);
   google.maps.event.addListener(marker, 'click', function() {
-
-    if(storeMarkers.length > 0){
+    var cat = document.getElementById('select-cat').value;
+    if(storeMarkers.length > 0 && cat == 'shop'){
       var markerMatch = storeMarkers.filter(function( obj ) {
         return obj.markerId == marker.__gm_id;
       });
     }
-    if(diningMarkers.length > 0 ){
+    if(diningMarkers.length > 0 && cat == 'dine'){
       var markerMatch = diningMarkers.filter(function( obj ) {
         return obj.markerId == marker.__gm_id;
       });
     }
-    if(serviceMarkers.length > 0){
+    if(serviceMarkers.length > 0 && cat == 'nightlife'){
       var markerMatch = serviceMarkers.filter(function( obj ) {
         return obj.markerId == marker.__gm_id;
       });
@@ -314,6 +313,7 @@ function createInfoWindow(marker, placeReference){
 function changeCategory(sender){
   sender.className = sender.value; 
   hideMarkers(sender.value)
+  infowindow.close();
 
   if(sender.value == 'shop') {
     if(storeMarkers.length > 0) showMarkers(storeMarkers);
