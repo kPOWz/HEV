@@ -1,27 +1,22 @@
 var map, placesService, resultList, infowindow;
-var requestStore, requestDining, requestService;
+var requestStore, requestDining, requestDrink; //requestService;
 
 var resultsCount = 0;
 var exceptions = ['AllSpice','New Oriental Food Store', 'Vanity & Glamour Cosmetics / VGCosmetic Makeup Artists', 'Plain Talk Books & Coffee', 'East Village Pantry']
 
 var storeMarkers = [];
 var diningMarkers = [];
+var drinkMarkers = [];
 var serviceMarkers = [];
 
 function initialize() {
-
-	// Center of Map
   var centerLatlng = new google.maps.LatLng(41.58950,-93.612);
-    
-	// Create an array of styles.
   var styles = [
-    //{ stylers: [ {inverse_lightness: true} ] },
   	{ featureType: "road", elementType: "geometry.fill", stylers: [ { color: "#cccccc" } ] },
   	{ featureType: "road", elementType: "labels.text.fill", stylers: [ { color: "#000000" } ] },
     { featureType:"landscape.man_made", elementType: "geometry.fill", stylers:[{hue:0},{saturation:100},{lightness:100}]},
-    {featureType:"poi",elementType:"labels",stylers:[{visibility:"off"}]} 
+    {featureType:"poi", elementType:"labels", stylers:[{visibility:"off"}]} 
   ];
-
 
   var mapOptions = {
     zoom: 17,
@@ -75,20 +70,27 @@ function initialize() {
  requestStore = {
       location: centerLatlng,
       radius: 250,
-      types: ['clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store','shoe_store','store']
+      types: ['clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store','shoe_store','store', 'art_gallery']
   };
 
   requestDining = {
       location: centerLatlng,
-      radius: 250,
-      types: ['restaurant', 'cafe', 'bar']
+      radius: 300,
+      types: ['restaurant', 'cafe']
   };
 
-  requestService = {
+  requestDrink = {
       location: centerLatlng,
-      radius: 250,
-      types: ['spa', 'atm','gym', 'florist','pharmacy'] //glaza, ricochet, bike collective, phtography, up down, house of bricks, wooly's, new oriental food store, east village spa, beehive, architect
+      radius: 450,
+      types: ['cafe', 'bar', 'night_club', 'lounge'] //'establishment'
   };
+
+  // requestService = {
+  //     location: centerLatlng,
+  //     radius: 250,
+  //     types: ['spa', ,'gym', 'florist','pharmacy', 'doctor', 'dentist', 'veterinary_care', 'place_of_worship', 'church', 'hair_care'
+  //               ,'grocery_or_supermarket'] //'atm' glaza, ricochet, bike collective, phtography, up down, house of bricks, wooly's, new oriental food store, east village spa, beehive, architect
+  // };
 
   placesService = new google.maps.places.PlacesService(map);
   placesService.nearbySearch(requestStore, storeCallback);
@@ -140,6 +142,10 @@ function diningCallback(results, status, pagination) {
   callback(results, status, pagination, diningMarkers) 
 }
 
+function drinkCallback(results, status, pagination) {
+  callback(results, status, pagination, drinkMarkers) 
+}
+
 function serviceCallback(results, status, pagination) {
   callback(results, status, pagination, serviceMarkers);
 }
@@ -169,49 +175,6 @@ function createMarkers(pagedResults, markers){
   }
 }
 
-function mostImportantType(types){
-  var dict = {};
-  types.forEach(function(type){
-      //add property to dictionary each time
-      scorePlaceType(type, dict)
-    });
-
-  var keys = Object.keys(dict);
-  var highest = Math.max.apply(Math, keys);
-  return dict[highest];
-}
-
-function scorePlaceType(type, dict){
-
-  var score;
-  switch (type) {
-    case 'pharmacy':
-    case 'spa':
-    case 'gym':
-    case 'beauty_salon':
-    case 'grocery_or_supermarket':
-    case 'hardware_store':
-      score = 5;
-      break;
-    case 'cafe':
-      score = 4;
-      break;
-    case 'restaurant':
-      score = 3;
-      break;
-    case 'bar':
-      score = 2;
-      break;
-    case 'store':
-      score = 1;
-      break;
-    default:
-      score = 0;
-  }
-
-  dict[score] = type;
-}
-
 function createMarker(place) {
 
 	var marker;
@@ -219,34 +182,11 @@ function createMarker(place) {
   console.log(place.name + ":\t " + place.types);
   var iconUrl;
 
-  var type = mostImportantType(place.types);
+  var cat = document.getElementById('select-cat').value;
 
-  //if we're doing shoping , anything w/out highest type store , set to undefined
-
-  switch (type) {
-    case 'pharmacy':
-    case 'spa':
-    case 'gym':
-    case 'beauty_salon':
-    case 'grocery_or_supermarket':
-    case 'hardware_store':
-        marker = makeMarker('red', placeLoc, place); // red - other service
-        break;
-   	case 'restaurant':
-        marker = makeMarker('#EC008B', placeLoc, place); //#EC008B pink - eat
-        break;
-    case 'cafe':
-        marker = makeMarker('aqua', placeLoc, place); //aqua cafe
-        break;
-    case 'bar':
-  	     marker = makeMarker('#00ADEF', placeLoc, place); //#00ADEF blue - drink
-        break;
-    case 'store':
-    	marker = makeMarker('#40AD48', placeLoc, place);  //#40AD48 green - shop
-        break;
-    default:
-    	marker = makeMarker('black', placeLoc, place);
-    }
+  if(cat == 'shop') marker = makeMarker('#40AD48', placeLoc, place);  //#40AD48 green - shop
+  if(cat == 'dine') marker = makeMarker('#EC008B', placeLoc, place); //#EC008B pink - eat
+  if(cat == 'drink') marker = makeMarker('#00ADEF', placeLoc, place); //#00ADEF blue - drink   	
   return marker;
 }
 
@@ -270,8 +210,8 @@ function createInfoWindow(marker, placeReference){
         return obj.markerId == marker.__gm_id;
       });
     }
-    if(serviceMarkers.length > 0 && cat == 'nightlife'){
-      var markerMatch = serviceMarkers.filter(function( obj ) {
+    if(drinkMarkers.length > 0 && cat == 'drink'){
+      var markerMatch = drinkMarkers.filter(function( obj ) {
         return obj.markerId == marker.__gm_id;
       });
     }
@@ -323,9 +263,9 @@ function changeCategory(sender){
     if(diningMarkers.length > 0) showMarkers(diningMarkers);
     else placesService.nearbySearch(requestDining, diningCallback);
   }
-  if(sender.value == 'nightlife') {
-    if(serviceMarkers.length > 0) showMarkers(serviceMarkers);
-    else placesService.nearbySearch(requestService, serviceCallback);
+  if(sender.value == 'drink') {
+    if(drinkMarkers.length > 0) showMarkers(drinkMarkers);
+    else placesService.nearbySearch(requestDrink, drinkCallback);
   }
 }
 
@@ -335,7 +275,7 @@ function hideMarkers(category){
     diningMarkers.forEach(function(markerContainer){
       markerContainer.marker.setVisible(false);
     });
-    serviceMarkers.forEach(function(markerContainer){
+    drinkMarkers.forEach(function(markerContainer){
       markerContainer.marker.setVisible(false);
     });
   }
@@ -344,12 +284,12 @@ function hideMarkers(category){
     storeMarkers.forEach(function(markerContainer){
       markerContainer.marker.setVisible(false);
     });
-    serviceMarkers.forEach(function(markerContainer){
+    drinkMarkers.forEach(function(markerContainer){
       markerContainer.marker.setVisible(false);
     });
   }
 
-  if(category == 'nightlife') {
+  if(category == 'drink') {
     storeMarkers.forEach(function(markerContainer){
       markerContainer.marker.setVisible(false);
     });

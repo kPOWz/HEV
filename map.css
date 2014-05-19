@@ -51,8 +51,8 @@
               circle closest-side
               , #EC008B 75%, white 10%);
       }
-      
-      select.nightlife {
+
+      select.drink {
           background: 
              -webkit-radial-gradient(
               8px 17px, 
