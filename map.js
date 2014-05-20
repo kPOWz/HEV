@@ -2,7 +2,8 @@ var map, placesService, resultList, infowindow;
 var requestStore, requestDining, requestDrink; //requestService;
 
 var resultsCount = 0;
-var exceptions = ['AllSpice','New Oriental Food Store', 'Vanity & Glamour Cosmetics / VGCosmetic Makeup Artists', 'Plain Talk Books & Coffee', 'East Village Pantry']
+var shopExclude = ['Hitachi Data Systems','Court Avenue Catering', 'Dilley Manufacturing Co', 'Ticketmaster','City Bakery'
+                    , 'Graybar','Thee EYE', 'A-D Distributing Company','Iowa Photo Booth','Patty A. Kumbera, RPH','Pamela Key, RPh']
 
 var storeMarkers = [];
 var diningMarkers = [];
@@ -70,7 +71,8 @@ function initialize() {
  requestStore = {
       location: centerLatlng,
       radius: 250,
-      types: ['clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store','shoe_store','store', 'art_gallery']
+      types: ['clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store','shoe_store'
+      ,'store', 'art_gallery', 'furniture_store']
   };
 
   requestDining = {
@@ -171,7 +173,9 @@ function createMarkers(pagedResults, markers){
 	for (var i = 0; i < pagedResults.length; i++) {
     var place = pagedResults[i];
 		var marker = createMarker(place);
-    markers.push({markerId: marker.__gm_id, marker: marker, reference: place.reference})
+    if(marker){
+      markers.push({markerId: marker.__gm_id, marker: marker, reference: place.reference})
+    }
   }
 }
 
@@ -184,7 +188,10 @@ function createMarker(place) {
 
   var cat = document.getElementById('select-cat').value;
 
-  if(cat == 'shop') marker = makeMarker('#40AD48', placeLoc, place);  //#40AD48 green - shop
+  if(cat == 'shop') {
+    if(shopExclude.indexOf(place.name) > -1) return;
+    marker = makeMarker('#40AD48', placeLoc, place); 
+  }
   if(cat == 'dine') marker = makeMarker('#EC008B', placeLoc, place); //#EC008B pink - eat
   if(cat == 'drink') marker = makeMarker('#00ADEF', placeLoc, place); //#00ADEF blue - drink   	
   return marker;
