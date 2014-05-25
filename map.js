@@ -2,8 +2,12 @@ var map, placesService, resultList, infowindow;
 var requestStore, requestDining, requestDrink; //requestService;
 
 var resultsCount = 0;
-var shopExclude = ['Hitachi Data Systems','Court Avenue Catering', 'Dilley Manufacturing Co', 'Ticketmaster','City Bakery'
-                    , 'Graybar','Thee EYE', 'A-D Distributing Company','Iowa Photo Booth','Patty A. Kumbera, RPH','Pamela Key, RPh']
+
+var uncategorizedStoreInclude = ['Bargain Basket', 'Liberty Gifts', 'Hammer Pharmacy', 'Ephemera', 'Found Things', 'Jett and Monkey\'s Dog Shoppe'
+  , 'Subsect Skateboard Shop', 'Vanity & Glamour Cosmetics / VGCosmetic Makeup Artists','Porch Light', 'Green Goods For The Home', 'Metroretro'];
+
+var storeTypes = ['furniture_store','clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store'
+      ,'shoe_store','grocery_or_supermarket', 'art_gallery' , 'book_store'];
 
 var storeMarkers = [];
 var diningMarkers = [];
@@ -68,11 +72,16 @@ function initialize() {
     map: map   
   });
     
- requestStore = {
+ requestCategorizedStore = {
       location: centerLatlng,
       radius: 250,
-      types: ['clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store','shoe_store'
-      ,'store', 'art_gallery', 'furniture_store']
+      types: storeTypes
+  };
+
+  requestUncategorizedStore = {
+      location: centerLatlng,
+      radius: 200,
+      types: ['store']
   };
 
   requestDining = {
@@ -95,7 +104,8 @@ function initialize() {
   // };
 
   placesService = new google.maps.places.PlacesService(map);
-  placesService.nearbySearch(requestStore, storeCallback);
+  placesService.nearbySearch(requestCategorizedStore, storeCallback);
+  placesService.nearbySearch(requestUncategorizedStore, storeCallback);
 
   var templateSelect = document.querySelector('#templateSelectCategory');
   var clone = document.importNode(templateSelect.content, true);
@@ -119,14 +129,6 @@ function makeMarker(color, placeLoc, place){
     strokeOpacity: 1.0,
     strokeWeight: 1
 
-  };
-
-  var defaultIcon = {
-    url: place.icon,
-    //size: new google.maps.Size(35, 35),
-    //origin: new google.maps.Point(0, 0),
-    anchor: new google.maps.Point(9, 9),
-    scaledSize: new google.maps.Size(18, 18)
   };
 
 	return new google.maps.Marker({
@@ -189,11 +191,17 @@ function createMarker(place) {
   var cat = document.getElementById('select-cat').value;
 
   if(cat == 'shop') {
-    if(shopExclude.indexOf(place.name) > -1) return;
-    marker = makeMarker('#40AD48', placeLoc, place); 
+
+    var categorizedStore = place.types.some(function(placeType){
+                      return (storeTypes.indexOf(placeType) > -1);
+                    });
+    var storeInclude = uncategorizedStoreInclude.indexOf(place.name) > -1;
+    if(categorizedStore || storeInclude){
+      marker = makeMarker('#40AD48', placeLoc, place); 
+    }
   }
-  if(cat == 'dine') marker = makeMarker('#EC008B', placeLoc, place); //#EC008B pink - eat
-  if(cat == 'drink') marker = makeMarker('#00ADEF', placeLoc, place); //#00ADEF blue - drink   	
+  if(cat == 'dine') marker = makeMarker('#EC008B', placeLoc, place);
+  if(cat == 'drink') marker = makeMarker('#00ADEF', placeLoc, place);
   return marker;
 }
 
