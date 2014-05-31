@@ -14,18 +14,18 @@ var cssmin = require('gulp-minify-css');
 
 //Minify CSS
 gulp.task('minifyCSS', function(){
-  return gulp.src('*.css')  
+  return gulp.src('public//stylesheets//*.css')  
     .pipe(cssmin())
     .pipe(rename('map.min.css'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist//public//stylesheets'));
 });
 
 // Concat & Minify JS
 gulp.task('minifyJS', function(){
-  return gulp.src('*.js')  
+  return gulp.src('public//javascripts//*.js')  
     .pipe(uglify())
     .pipe(rename('map.min.js'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist//public//javascripts'));
 });
 
 // Watch Files For Changes

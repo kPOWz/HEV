@@ -26,11 +26,29 @@
           border-radius: 0;
           height: 34px;
           -webkit-appearance: none;
+          -moz-appearance: none !important;
+          text-overflow: '';
+          text-indent: 0.1px;
+          appearance: none;          
+      }
+
+      #select-container select::-ms-expand {
+          display: none;
       }
 
       select {
           background: 
              -webkit-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #40AD48 75%, white 10%);
+          background: 
+             -moz-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #40AD48 75%, white 10%);
+          background: 
+             -ms-radial-gradient(
               8px 17px, 
               circle closest-side
               , #40AD48 75%, white 10%);
@@ -42,6 +60,16 @@
               8px 17px, 
               circle closest-side
               , #40AD48 75%, white 10%);
+          background: 
+             -moz-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #40AD48 75%, white 10%);
+          background: 
+             -ms-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #40AD48 75%, white 10%);
       }
 
       select.dine {
@@ -50,11 +78,31 @@
               8px 17px, 
               circle closest-side
               , #EC008B 75%, white 10%);
+          background: 
+             -moz-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #EC008B 75%, white 10%);
+          background: 
+             -ms-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #EC008B 75%, white 10%);
       }
 
       select.drink {
           background: 
              -webkit-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #00ADEF 75%, white 10%);
+          background: 
+             -moz-radial-gradient(
+              8px 17px, 
+              circle closest-side
+              , #00ADEF 75%, white 10%);
+          background: 
+             -ms-radial-gradient(
               8px 17px, 
               circle closest-side
               , #00ADEF 75%, white 10%);
