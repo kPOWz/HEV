@@ -18,6 +18,12 @@
       	background-color: white; 
       }
 
+      #select-container{
+          position: absolute; 
+          bottom: 15px; 
+          right: 10px; 
+      }
+
       #select-container select {
           width: 268px;
           padding: 5px;

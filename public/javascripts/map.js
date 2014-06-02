@@ -24,7 +24,7 @@ function initialize() {
   ];
 
   var mapOptions = {
-    zoom: 17,
+    zoom: 16,
     maxZoom: 19,
     minZoom: 15,
     center: centerLatlng,
@@ -106,14 +106,6 @@ function initialize() {
   placesService = new google.maps.places.PlacesService(map);
   placesService.nearbySearch(requestCategorizedStore, storeCallback);
   placesService.nearbySearch(requestUncategorizedStore, storeCallback);
-
-  var templateSelect = document.querySelector('#templateSelectCategory');
-  var clone = document.importNode(templateSelect.content, true);
-  var tmp = document.createElement("div");
-  tmp.appendChild(clone);
-  tmp.index = 1;
-  tmp.id = 'select-container';
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(tmp);
 
   infowindow = new google.maps.InfoWindow();
 }
@@ -237,23 +229,18 @@ function createInfoWindow(marker, placeReference){
       placesService.getDetails(request, function(place, status){
 
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-            var t = document.querySelector('#templateInfoWindow');
-
-            t.content.querySelector('.p-name').innerHTML = '<strong>' + place.name + '</strong>';
-            var phoneElement = t.content.querySelector('.phone');
-            phoneElement.href = "tel:" + place.formatted_phone_number;
-            phoneElement.innerHTML = place.formatted_phone_number;
-            t.content.querySelector('.p-street-address').innerHTML = place.address_components[0].short_name 
-              + " " + place.address_components[1].short_name;
-            //t.content.querySelector('.p-extended-address').innerHTML = place.address_components;
-
-
-            //t.content.querySelector('img').src = 'hev-logo.png';
-            var clone = document.importNode(t.content, true);
-            var tmp = document.createElement("div");
-            tmp.appendChild(clone);
-            console.log(tmp.innerHTML); 
-            infowindow.setContent(tmp.innerHTML);
+          var content = '<div class="h-card map-overlay">'
+             + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
+            + '<div class="p-tel tel">'
+             +   '<dt>Phone</dt>'
+             +   '<dd><a class="value phone" href="tel:'+place.formatted_phone_number+'">'+place.formatted_phone_number+'</a></dd>'
+             + '</div>'
+             + '<p class="p-adr h-adr">'
+                +'<div class="p-street-address street-address" >'+place.address_components[0].short_name 
+                  + " " + place.address_components[1].short_name+'</div>'
+              +'</p>'
+            +'</div>';
+            infowindow.setContent(content);
             infowindow.open(map, markerMatch[0].marker);
 
         }else{
