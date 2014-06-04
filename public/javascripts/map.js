@@ -226,10 +226,12 @@ function createInfoWindow(marker, placeReference){
       var request = {
         reference: markerMatch[0].reference
       }
+      var placeDetail = document.getElementById('place-detail-pane');
       placesService.getDetails(request, function(place, status){
 
         if (status == google.maps.places.PlacesServiceStatus.OK) {
           var content = '<div class="h-card map-overlay">'
+            + '<a href="#">CLOSE</a>'
              + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
             + '<div class="p-tel tel">'
              +   '<dt>Phone</dt>'
@@ -240,14 +242,26 @@ function createInfoWindow(marker, placeReference){
                   + " " + place.address_components[1].short_name+'</div>'
               +'</p>'
             +'</div>';
-            infowindow.setContent(content);
-            infowindow.open(map, markerMatch[0].marker);
 
+            
+            if(placeDetail){
+                placeDetail.innerHTML = content;
+            }
         }else{
-          console.warn("not ok place with reference" + markerMatch[0].reference)
+          console.warn("not ok place with reference" + markerMatch[0].reference);
+          var noContent =  '<a href="#">CLOSE</a>'
+            + '<p class="p-name"><strong>place detail could not be retrieved </strong></p>';
+          
+            if(placeDetail){
+                placeDetail.innerHTML = noContent;
+            }
         }
 
       });
+    
+    var anchor= document.createElement('a');
+    anchor.href = "#place-detail-pane"
+    anchor.click();
 
     });
 }
