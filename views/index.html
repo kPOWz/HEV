@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <link href="stylesheets/map.min.css" rel="stylesheet" type="text/css"></link>
    <!-- TODO: does this have to be in the head? -->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBL0KrKrs7oKIS0Dlo3s9-ktwCt2iwCE1s&sensor=false&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     <script src="javascripts/map.min.js"></script>
   </head>
   <body>
@@ -15,12 +15,13 @@
       <!-- where the magic happens -->    
     </div>  
 
-    <div id="select-container" class="map-overlay">
+    <div id="select-container">
       <select id="select-cat" onchange="changeCategory(this)">
-        <option value="shop" title="explore shopping" selected>&nbsp&nbsp Shop</option> 
-        <option value="dine" title="explore dining" >&nbsp&nbsp Dine</option>
-        <option value="drink" title="explore cafés and nightlife">&nbsp&nbsp Drink</option>
+        <option value="shop" title="explore shopping" selected>Shop</option> 
+        <option value="dine" title="explore dining" >Dine</option>
+        <option value="drink" title="explore cafés and nightlife">Drink</option>
       </select>
+      <span class="__select--after">&#x25BC;</span>
     </div>
     <div id='place-detail-pane'></div>
     <footer>
@@ -32,7 +33,6 @@
 
         ga('create', 'UA-36362400-6', 'hev.herokuapp.com');
         ga('send', 'pageview');
-
       </script>
     </footer>
   </body>

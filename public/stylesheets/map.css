@@ -62,15 +62,22 @@
       #select-container select {
           width: 268px;
           padding: 5px;
+          padding-left: 18px;
+          margin-right: -25px;
           font-size: 16px;
           line-height: 1.5;
           border-radius: 0;
           height: 34px;
           -webkit-appearance: none;
-          -moz-appearance: none !important;
-          text-overflow: '';
-          text-indent: 0.1px;
+          -moz-appearance: none;
           appearance: none;          
+      }
+
+      @-moz-document url-prefix() {
+        #select-container select {
+          text-overflow: '';
+          text-indent: 0.1px; 
+        }
       }
 
       #select-container select::-ms-expand {
@@ -147,6 +154,10 @@
               8px 17px, 
               circle closest-side
               , #00ADEF 75%, white 10%);
+      }
+
+      .__select--after{
+        pointer-events: none;
       }
 
       .p-tel,
