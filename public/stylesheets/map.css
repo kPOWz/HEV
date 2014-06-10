@@ -43,6 +43,14 @@
           transform: scaleY(1);
       }
 
+      #place-detail-pane-close{
+        border: 1px solid black;
+        text-decoration:none;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+      }
+
       #categories-list{
         position: absolute; top: 10px; left: 10px;
       }

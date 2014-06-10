@@ -230,8 +230,8 @@ function createInfoWindow(marker, placeReference){
       placesService.getDetails(request, function(place, status){
 
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-          var content = '<div class="h-card map-overlay">'
-            + '<a href="#">CLOSE</a>'
+          var content = '<div class="h-card">'
+            + '<a href="#" id="place-detail-pane-close">X</a>'
              + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
             + '<div class="p-tel tel">'
              +   '<dt>Phone</dt>'
