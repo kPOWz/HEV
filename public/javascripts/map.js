@@ -259,9 +259,11 @@ function createInfoWindow(marker, placeReference){
 
       });
     
-    var anchor= document.createElement('a');
-    anchor.href = "#place-detail-pane"
-    anchor.click();
+    // var anchor= document.createElement('a');
+    // anchor.href = "#place-detail-pane"
+    // anchor.click();
+    var anchor = document.getElementById('trigger-detail-pane');
+    anchor.click(); 
 
     });
 }

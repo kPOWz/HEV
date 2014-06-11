@@ -54,6 +54,10 @@
           padding: 0.2em 0.4em;
       }
 
+      a.hidden{
+        display: none;
+      }
+
       #categories-list{
         position: absolute; top: 10px; left: 10px;
       }
