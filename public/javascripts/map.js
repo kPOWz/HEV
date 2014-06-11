@@ -93,15 +93,8 @@ function initialize() {
   requestDrink = {
       location: centerLatlng,
       radius: 450,
-      types: ['cafe', 'bar', 'night_club', 'lounge'] //'establishment'
+      types: ['cafe', 'bar', 'night_club', 'lounge']
   };
-
-  // requestService = {
-  //     location: centerLatlng,
-  //     radius: 250,
-  //     types: ['spa', ,'gym', 'florist','pharmacy', 'doctor', 'dentist', 'veterinary_care', 'place_of_worship', 'church', 'hair_care'
-  //               ,'grocery_or_supermarket'] //'atm' glaza, ricochet, bike collective, phtography, up down, house of bricks, wooly's, new oriental food store, east village spa, beehive, architect
-  // };
 
   placesService = new google.maps.places.PlacesService(map);
   placesService.nearbySearch(requestCategorizedStore, storeCallback);
@@ -226,45 +219,42 @@ function createInfoWindow(marker, placeReference){
       var request = {
         reference: markerMatch[0].reference
       }
-      var placeDetail = document.getElementById('place-detail-pane');
+      
       placesService.getDetails(request, function(place, status){
-
+      var content = '<a href="#" id="place-detail-pane-close" class="button">X</a>'
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-          var content = '<a href="#" id="place-detail-pane-close" class="button">X</a>'
+          content = content
             +  '<div class="h-card">'
-             + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
+            + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
             + '<div class="p-tel tel">'
-             +   '<dt>Phone</dt>'
-             +   '<dd><a class="value phone" href="tel:'+place.formatted_phone_number+'">'+place.formatted_phone_number+'</a></dd>'
-             + '</div>'
-             + '<p class="p-adr h-adr">'
+            +   '<dt>Phone</dt>'
+            +   '<dd><a class="value phone" href="tel:'+place.formatted_phone_number+'">'+place.formatted_phone_number+'</a></dd>'
+            + '</div>'
+            + '<p class="p-adr h-adr">'
                 +'<div class="p-street-address street-address" >'+place.address_components[0].short_name 
                   + " " + place.address_components[1].short_name+'</div>'
               +'</p>'
             +'</div>';
-
-            
+        }else{
+          console.warn("not ok place with reference" + markerMatch[0].reference);
+          content =  content
+            + '<p class="p-name"><strong>place detail could not be retrieved </strong></p>';
+        }
+        if(Modernizr.csstransitions && Modernizr.csstransforms){
+            var placeDetail = document.getElementById('place-detail-pane');
             if(placeDetail){
                 placeDetail.innerHTML = content;
             }
-        }else{
-          console.warn("not ok place with reference" + markerMatch[0].reference);
-          var noContent =  '<a href="#" class="button">X</a>'
-            + '<p class="p-name"><strong>place detail could not be retrieved </strong></p>';
-          
-            if(placeDetail){
-                placeDetail.innerHTML = noContent;
-            }
+          }
+        else{
+          infowindow.setContent(content);
+          infowindow.open(map, markerMatch[0].marker);
         }
 
       });
     
-    // var anchor= document.createElement('a');
-    // anchor.href = "#place-detail-pane"
-    // anchor.click();
     var anchor = document.getElementById('trigger-detail-pane');
     anchor.click(); 
-
     });
 }
 
@@ -272,6 +262,7 @@ function changeCategory(sender){
   sender.className = sender.value; 
   hideMarkers(sender.value)
   infowindow.close();
+  document.getElementById('place-detail-pane-close').click();
 
   if(sender.value == 'shop') {
     if(storeMarkers.length > 0) showMarkers(storeMarkers);
