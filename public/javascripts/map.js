@@ -230,8 +230,8 @@ function createInfoWindow(marker, placeReference){
       placesService.getDetails(request, function(place, status){
 
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-          var content = '<div class="h-card">'
-            + '<a href="#" id="place-detail-pane-close">X</a>'
+          var content = '<a href="#" id="place-detail-pane-close" class="button">X</a>'
+            +  '<div class="h-card">'
              + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
             + '<div class="p-tel tel">'
              +   '<dt>Phone</dt>'
@@ -249,7 +249,7 @@ function createInfoWindow(marker, placeReference){
             }
         }else{
           console.warn("not ok place with reference" + markerMatch[0].reference);
-          var noContent =  '<a href="#">CLOSE</a>'
+          var noContent =  '<a href="#" class="button">X</a>'
             + '<p class="p-name"><strong>place detail could not be retrieved </strong></p>';
           
             if(placeDetail){
