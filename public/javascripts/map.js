@@ -262,7 +262,8 @@ function changeCategory(sender){
   sender.className = sender.value; 
   hideMarkers(sender.value)
   infowindow.close();
-  document.getElementById('place-detail-pane-close').click();
+  var infoPane = document.getElementById('place-detail-pane-close');
+  if(infoPane) infoPane.click();
 
   if(sender.value == 'shop') {
     if(storeMarkers.length > 0) showMarkers(storeMarkers);
