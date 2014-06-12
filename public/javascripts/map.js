@@ -170,7 +170,6 @@ function createMarker(place) {
 
 	var marker;
   var placeLoc = place.geometry.location;
-  console.log(place.name + ":\t " + place.types);
   var iconUrl;
 
   var cat = document.getElementById('select-cat').value;
@@ -197,7 +196,6 @@ function createInfoWindows(markers){
 }
 
 function createInfoWindow(marker, placeReference){
-  console.log("reference: " + placeReference);
   google.maps.event.addListener(marker, 'click', function() {
     var cat = document.getElementById('select-cat').value;
     if(storeMarkers.length > 0 && cat == 'shop'){
@@ -254,6 +252,12 @@ function createInfoWindow(marker, placeReference){
       });
     
     var anchor = document.getElementById('trigger-detail-pane');
+    console.log(anchor.nodeName);
+    console.log(anchor.tagName);
+    console.log(anchor.click);
+    if(anchor.click){
+      console.log(anchor.id + ' has click!');
+    }
     anchor.click(); 
     });
 }
