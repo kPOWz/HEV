@@ -252,11 +252,10 @@ function createInfoWindow(marker, placeReference){
       });
     
     var anchor = document.getElementById('trigger-detail-pane');
-    console.log(anchor.nodeName);
-    console.log(anchor.tagName);
-    console.log(anchor.click);
-    if(anchor.click){
-      console.log(anchor.id + ' has click!');
+    if(!anchor.click){
+      console.log(anchor.id + ' no has click!');
+      addClickEvent(anchor);
+      console.log(anchor.id + ' now has click? ' + anchor.click);
     }
     anchor.click(); 
     });
@@ -312,6 +311,16 @@ function hideMarkers(category){
     });
   }
 
+}
+
+function addClickEvent(element){
+  if(typeof element!='undefined' && !element.prototype.click) {
+    element.prototype.click=function() {
+        var evt = this.ownerDocument.createEvent('MouseEvents');
+        evt.initMouseEvent('click', true, true, this.ownerDocument.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+        this.dispatchEvent(evt);
+    }
+  }
 }
 
 function showMarkers(markersArray){
