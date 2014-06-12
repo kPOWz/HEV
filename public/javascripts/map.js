@@ -315,9 +315,11 @@ function hideMarkers(category){
 
 }
 
-function addClickEvent(element){
-  if(typeof element!='undefined' && !element.prototype.click) {
-    element.prototype.click=function() {
+function addClickEvent(ele){
+  console.log(typeof(ele));
+  console.log(ele.prototype);
+  if(typeof ele!='undefined' && !ele.prototype.click) {
+    ele.prototype.click=function() {
         var evt = this.ownerDocument.createEvent('MouseEvents');
         evt.initMouseEvent('click', true, true, this.ownerDocument.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
         this.dispatchEvent(evt);
