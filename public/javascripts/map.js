@@ -253,12 +253,8 @@ function createInfoWindow(marker, placeReference){
     
     var anchor = document.getElementById('trigger-detail-pane');
     if(!anchor.click){
-      console.log(anchor.id + ' no has click!');
       addClickEvent(anchor);
-      console.log(anchor);
-      console.log(anchor.id + ' now has click? ' + anchor.click);
     }
-    console.log('clicking...');
     anchor.click(); 
     });
 }
@@ -316,8 +312,6 @@ function hideMarkers(category){
 }
 
 function addClickEvent(ele){
-  console.log(typeof(ele));
-  console.log(ele.prototype);
   if(typeof ele!='undefined' && !ele.click) {
     ele.click=function() {
         var evt = this.ownerDocument.createEvent('MouseEvents');
