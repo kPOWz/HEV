@@ -255,8 +255,10 @@ function createInfoWindow(marker, placeReference){
     if(!anchor.click){
       console.log(anchor.id + ' no has click!');
       addClickEvent(anchor);
+      console.log(anchor);
       console.log(anchor.id + ' now has click? ' + anchor.click);
     }
+    console.log('clicking...');
     anchor.click(); 
     });
 }
