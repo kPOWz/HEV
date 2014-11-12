@@ -102,6 +102,10 @@ function initialize() {
 
   infowindow = new google.maps.InfoWindow();
 }
+
+var getMarkerUniqueId= function(lat, lng) {
+    return lat + '_' + lng;
+}
  
 function makeMarker(color, placeLoc, place){
 
@@ -160,8 +164,9 @@ function createMarkers(pagedResults, markers){
 	for (var i = 0; i < pagedResults.length; i++) {
     var place = pagedResults[i];
 		var marker = createMarker(place);
-    if(marker){
-      markers.push({markerId: marker.__gm_id, marker: marker, reference: place.reference})
+    if(marker && marker.getPosition()){
+      var generatedMarkerId = getMarkerUniqueId(marker.getPosition().lat(), marker.getPosition().lng());
+      markers.push({markerId: generatedMarkerId, marker: marker, reference: place.reference});
     }
   }
 }
@@ -198,19 +203,20 @@ function createInfoWindows(markers){
 function createInfoWindow(marker, placeReference){
   google.maps.event.addListener(marker, 'click', function() {
     var cat = document.getElementById('select-cat').value;
+    var generatedMarkerId = getMarkerUniqueId(marker.getPosition().lat(), marker.getPosition().lng());
     if(storeMarkers.length > 0 && cat == 'shop'){
       var markerMatch = storeMarkers.filter(function( obj ) {
-        return obj.markerId == marker.__gm_id;
+        return obj.markerId == generatedMarkerId;
       });
     }
     if(diningMarkers.length > 0 && cat == 'dine'){
       var markerMatch = diningMarkers.filter(function( obj ) {
-        return obj.markerId == marker.__gm_id;
+        return obj.markerId == generatedMarkerId;
       });
     }
     if(drinkMarkers.length > 0 && cat == 'drink'){
       var markerMatch = drinkMarkers.filter(function( obj ) {
-        return obj.markerId == marker.__gm_id;
+        return obj.markerId == generatedMarkerId;
       });
     }
 
