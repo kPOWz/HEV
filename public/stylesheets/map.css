@@ -104,24 +104,6 @@
           display: none;
       }
 
-      select {
-          background: 
-             -webkit-radial-gradient(
-              8px 17px, 
-              circle closest-side
-              , #40AD48 75%, white 10%);
-          background: 
-             -moz-radial-gradient(
-              8px 17px, 
-              circle closest-side
-              , #40AD48 75%, white 10%);
-          background: 
-             -ms-radial-gradient(
-              8px 17px, 
-              circle closest-side
-              , #40AD48 75%, white 10%);
-      }
-
       select.shop {
           background: 
              -webkit-radial-gradient(

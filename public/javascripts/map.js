@@ -1,5 +1,6 @@
-var map, placesService, resultList, infowindow;
-var requestStore, requestDining, requestDrink; //requestService;
+var map, placesService, neighborhoodPolygon, resultList, infowindow;
+
+var requestCategorizedStore, requestUncategorizedStore, requestDining, requestDrink; //requestService;
 
 var resultsCount = 0;
 
@@ -7,7 +8,7 @@ var uncategorizedStoreInclude = ['Bargain Basket', 'Liberty Gifts', 'Hammer Phar
   , 'Subsect Skateboard Shop', 'Vanity & Glamour Cosmetics / VGCosmetic Makeup Artists','Porch Light', 'Green Goods For The Home', 'Metroretro'];
 
 var storeTypes = ['furniture_store','clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store'
-      ,'shoe_store','grocery_or_supermarket', 'art_gallery' , 'book_store'];
+      ,'shoe_store','grocery_or_supermarket', 'art_gallery' , 'book_store','thrift_store'];
 
 var storeMarkers = [];
 var diningMarkers = [];
@@ -20,11 +21,12 @@ function initialize() {
   	{ featureType: "road", elementType: "geometry.fill", stylers: [ { color: "#cccccc" } ] },
   	{ featureType: "road", elementType: "labels.text.fill", stylers: [ { color: "#000000" } ] },
     { featureType:"landscape.man_made", elementType: "geometry.fill", stylers:[{hue:0},{saturation:100},{lightness:100}]},
-    {featureType:"poi", elementType:"labels", stylers:[{visibility:"off"}]} 
+    { featureType:"poi", elementType:"labels", stylers:[{visibility:"off"}]},
+    { featureType: "administrative.neighborhood", elementType: "labels.text.fill", stylers:[{"color": "#D1AB38"},{ "lightness": -35 }]}
   ];
 
   var mapOptions = {
-    zoom: 16,
+    zoom: 15,
     maxZoom: 19,
     minZoom: 15,
     center: centerLatlng,
@@ -33,15 +35,16 @@ function initialize() {
     mapTypeControl: false,
   };
   
-  // Define HEV boundary
-  //TODO: via KML instead
+  
   var mapCanvas = document.getElementById('map-canvas');
   map = new google.maps.Map(mapCanvas,mapOptions);
 
   //var bikeLayer = new google.maps.BicyclingLayer();
   //bikeLayer.setMap(map);
-      
-    var hevCoords = [
+
+  // Define HEV boundary
+  //TODO: via KML instead  
+  var hevCoords = [
       new google.maps.LatLng(41.5905, -93.6176),
       new google.maps.LatLng(41.5945, -93.5983),
       new google.maps.LatLng(41.5897, -93.5968),
@@ -53,22 +56,11 @@ function initialize() {
       new google.maps.LatLng(41.5900, -93.6174),
       new google.maps.LatLng(41.5905, -93.6176)
   ];
-
-  var lineSymbol = {
-    path: 'M 0,-1 0,1',
-    strokeOpacity: 0.5,
-    scale: 4
-  };
-
-  // Construct the polyline
-  hevBoundaries = new google.maps.Polyline({
+  neighborhoodPolygon = new google.maps.Polygon({
     path: hevCoords,
     strokeOpacity: 0,
-    icons: [{
-      icon: lineSymbol,
-      offset: '0',
-      repeat: '20px'
-    }],
+    fillColor: '#FCEDBD',
+    fillOpacity: 0.35, 
     map: map   
   });
     
@@ -97,10 +89,9 @@ function initialize() {
   };
 
   placesService = new google.maps.places.PlacesService(map);
-  placesService.nearbySearch(requestCategorizedStore, storeCallback);
-  placesService.nearbySearch(requestUncategorizedStore, storeCallback);
-
   infowindow = new google.maps.InfoWindow();
+  google.maps.event.addListener(map, 'zoom_changed', setNeighborhood);
+
 }
 
 var getMarkerUniqueId= function(lat, lng) {
@@ -269,12 +260,18 @@ function changeCategory(sender){
   sender.className = sender.value; 
   hideMarkers(sender.value)
   infowindow.close();
+
   var infoPane = document.getElementById('place-detail-pane-close');
   if(infoPane) infoPane.click();
 
+  if(map.getZoom() < 17) map.setZoom(17);
+
   if(sender.value == 'shop') {
     if(storeMarkers.length > 0) showMarkers(storeMarkers);
-    else placesService.nearbySearch(requestStore, storeCallback);
+    else {
+      placesService.nearbySearch(requestCategorizedStore, storeCallback);
+      placesService.nearbySearch(requestUncategorizedStore, storeCallback);
+    }
   }
   if(sender.value == 'dine') {
     if(diningMarkers.length > 0) showMarkers(diningMarkers);
@@ -331,6 +328,15 @@ function showMarkers(markersArray){
   markersArray.forEach(function(markerContainer){
       markerContainer.marker.setVisible(true);
     });
+}
+
+function setNeighborhood(event){
+  if(map.getZoom() <= 15){
+    neighborhoodPolygon.setMap(map);
+
+  }else{
+    neighborhoodPolygon.setMap(null);
+  }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize); 
