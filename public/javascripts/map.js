@@ -122,10 +122,19 @@ function initialize() {
   // }); 
   // hoodLayer.setMap(map);
 
-  var mapsEngineLayer = new google.maps.visualization.MapsEngineLayer({
-    layerId: '00463335882591727230-12798225287603138914',
-    map: map
+  // var mapsEngineLayer = new google.maps.visualization.MapsEngineLayer({
+  //   layerId: '00463335882591727230-12798225287603138914',
+  //   map: map
+  // });
+
+  layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'geometry',
+      from: '1400IQGlzH5dGWJsruolfKlOXFXjUkJvxUXPD8QCW',
+      where: "'NHNAME' = 'Historic East Village'"
+    }
   });
+  layer.setMap(map);
 
   placesService = new google.maps.places.PlacesService(map);
   infowindow = new google.maps.InfoWindow();
