@@ -117,15 +117,15 @@ function initialize() {
       types: ['cafe', 'bar', 'night_club', 'lounge']
   };
 
-  var hoodLayer = new google.maps.KmlLayer({
-    url: 'https://sites.google.com/site/hevdsm/kml/boundary.kml'
-  }); 
-  hoodLayer.setMap(map);
+  // var hoodLayer = new google.maps.KmlLayer({
+  //   url: 'https://sites.google.com/site/hevdsm/kml/boundary.kml'
+  // }); 
+  // hoodLayer.setMap(map);
 
-  // var mapsEngineLayer = new google.maps.visualization.MapsEngineLayer({
-  //   layerId: '00463335882591727230-12798225287603138914',
-  //   map: map
-  // });
+  var mapsEngineLayer = new google.maps.visualization.MapsEngineLayer({
+    layerId: '00463335882591727230-12798225287603138914',
+    map: map
+  });
 
   placesService = new google.maps.places.PlacesService(map);
   infowindow = new google.maps.InfoWindow();
