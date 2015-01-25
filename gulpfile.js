@@ -36,4 +36,4 @@ gulp.task('watch', function() {
 
 // Default
 // gulp.task('default', ['lint', 'minify', 'watch']);
-gulp.task('default', ['minifyJS', 'minifyCSS']);
+gulp.task('default', ['minifyJS', 'minifyCSS', 'watch']);

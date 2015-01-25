@@ -1,4 +1,4 @@
-var map, placesService, neighborhoodPolygon, resultList, infowindow;
+var map, placesService, neighborhoodPolygon, resultList, infowindow, kmlLayer;
 
 var requestCategorizedStore, requestUncategorizedStore, requestDining, requestDrink; //requestService;
 
@@ -127,14 +127,15 @@ function initialize() {
   //   map: map
   // });
 
-  layer = new google.maps.FusionTablesLayer({
+  kmlLayer = new google.maps.FusionTablesLayer({
     query: {
       select: 'geometry',
       from: '1400IQGlzH5dGWJsruolfKlOXFXjUkJvxUXPD8QCW',
       where: "'NHNAME' = 'Historic East Village'"
-    }
+    },
+    styles:[{polygonOptions:{fillOpacity: 0.1, strokeColor: "#CC3333"}}]
   });
-  layer.setMap(map);
+  kmlLayer.setMap(map);
 
   placesService = new google.maps.places.PlacesService(map);
   infowindow = new google.maps.InfoWindow();
@@ -380,10 +381,12 @@ function showMarkers(markersArray){
 
 function setNeighborhood(event){
   if(map.getZoom() <= 15){
-    neighborhoodPolygon.setMap(map);
+    kmlLayer.setMap(map);
+    //neighborhoodPolygon.setMap(map);
 
   }else{
-    neighborhoodPolygon.setMap(null);
+    kmlLayer.setMap(null);
+    //neighborhoodPolygon.setMap(null);
   }
 }
 
