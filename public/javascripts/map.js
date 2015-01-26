@@ -271,8 +271,8 @@ function createInfoWindow(marker, placeReference){
             +  '<div class="h-card">'
             + '<p class="p-name"><strong>'+ place.name +'</strong></p>'
             + '<div class="p-tel tel">'
-            +   '<dt>Phone</dt>'
-            +   '<dd><a class="value phone" href="tel:'+place.formatted_phone_number+'">'+place.formatted_phone_number+'</a></dd>'
+            +   '<dt>Phone: </dt>'
+            +   '<dd><a class="value phone" href="tel:'+place.formatted_phone_number+'"> '+place.formatted_phone_number+'</a></dd>'
             + '</div>'
             + '<p class="p-adr h-adr">'
                 +'<div class="p-street-address street-address" >'+place.address_components[0].short_name 
