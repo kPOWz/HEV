@@ -1,17 +1,24 @@
-//require google maps js api
+//depends on  google maps js api
+// map
+//places service
+// zoom thresholds
 var NEIGHBORHOOD = (function(){
   
   //private, closed up into NEIGHBORHOOD namespace
   //array of sets of markers
   var layers=[];
   var requests = {};
+  var neighborhoodViewZoomThreshold = 15;
 
 
   var hideMarkers = function(key){ 
     if(layers.length < 1) return;
 
     var shownLayer;
-  	if(layers[key]) shownLayer= layers.splice(key,1);
+  	if(layers[key]) {
+      shownLayer= layers[key];
+      delete layers[key];
+    }
   	//TODO: how can we avoid quadratic with an algorithm?
   	layers.forEach(function(layer){
   		layer.forEach(function(marker){
@@ -19,7 +26,7 @@ var NEIGHBORHOOD = (function(){
   		})
   	});
 
-  	if(layers[key]) layers.push(shownLayer);
+  	if(!layers[key]) layers[key] = shownLayer;
   }
 
   var showMarkers = function(markersArray){
@@ -34,7 +41,6 @@ var NEIGHBORHOOD = (function(){
 
   var changeCategory = function(key, placesService){
 	  hideMarkers(key)
-	  //infowindow.close(); //TODO: needs to be one global window not sure where it should be ... if it has anything to do with neighborhood, maker, place modules - seems like an independent thing
 
 	  //if an infopane was set durring init, do this
 	  var infoPane = document.getElementById('place-detail-pane-close'); //TODO: MOVE
@@ -74,7 +80,12 @@ var NEIGHBORHOOD = (function(){
       }
     },
     draw : function(shape, map){
-    	shape.setMap(map); // || settings.map
+      if(map.getZoom() <= neighborhoodViewZoomThreshold){
+        shape.setMap(map); // || settings.map
+
+      }else{
+        kmlLayer.setMap(null);
+      }
 	}
   };
 })();
