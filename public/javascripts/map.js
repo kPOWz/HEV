@@ -85,29 +85,29 @@ function initialize() {
 
 }
 
-var getMarkerUniqueId= function(lat, lng) {
-    return lat + '_' + lng;
-}
+// var getMarkerUniqueId= function(lat, lng) {
+//     return lat + '_' + lng;
+// }
  
-function makeMarker(color, placeLoc, place){
+// function makeMarker(color, placeLoc, place){
 
-  var circleIcon = {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 6,
-    fillColor: color,
-    fillOpacity: 1.0,
-    strokeColor: 'white',
-    strokeOpacity: 1.0,
-    strokeWeight: 1
+//   var circleIcon = {
+//     path: google.maps.SymbolPath.CIRCLE,
+//     scale: 6,
+//     fillColor: color,
+//     fillOpacity: 1.0,
+//     strokeColor: 'white',
+//     strokeOpacity: 1.0,
+//     strokeWeight: 1
 
-  };
+//   };
 
-	return new google.maps.Marker({
-  	icon: circleIcon,
-  	map: map,
-  	position: placeLoc
-	}); 
-}  
+// 	return new google.maps.Marker({
+//   	icon: circleIcon,
+//   	map: map,
+//   	position: placeLoc
+// 	}); 
+// }  
 
 function storeCallback(results, status, pagination) {
   callback(results, status, pagination, storeMarkers) 
@@ -130,54 +130,55 @@ function callback(results, status, pagination, markers) {
 	if(status != google.maps.places.PlacesServiceStatus.OK){
 		return;
 	}
+  var cat = document.getElementById('select-cat');
+  if(cat) var key = cat.value;
 
-	createMarkers(results, markers);
+	createMarkers(results, markers, key);
   resultsCount += results.length;
 
 	if (pagination.hasNextPage) {	 	
 	 	pagination.nextPage();
 	}else{
     console.log(resultsCount);
-    var cat = document.getElementById('select-cat');
-    if(cat) NEIGHBORHOOD.addLayer(cat.value, markers);
+    if(cat) NEIGHBORHOOD.addLayer(key, markers);
     createInfoWindows(markers);
   }
 }
 
-function createMarkers(pagedResults, markers){
+function createMarkers(pagedResults, markers, key){
 	for (var i = 0; i < pagedResults.length; i++) {
     var place = pagedResults[i];
-		var marker = createMarker(place);
+		var marker = MARKER.createMarker(map, place, key);
     if(marker && marker.getPosition()){
-      var generatedMarkerId = getMarkerUniqueId(marker.getPosition().lat(), marker.getPosition().lng());
+      var generatedMarkerId = MARKER.getMarkerUniqueId(marker.getPosition().lat(), marker.getPosition().lng());
       markers.push({markerId: generatedMarkerId, marker: marker, reference: place.reference});
     }
   }
 }
 
-function createMarker(place) {
+// function createMarker(place) {
 
-	var marker;
-  var placeLoc = place.geometry.location;
-  var iconUrl;
+// 	var marker;
+//   var placeLoc = place.geometry.location;
+//   var iconUrl;
 
-  var cat = document.getElementById('select-cat');
-  if(cat) cat = cat.options[cat.selectedIndex].innerHTML.toLowerCase();
+//   var cat = document.getElementById('select-cat');
+//   if(cat) cat = cat.options[cat.selectedIndex].innerHTML.toLowerCase();
 
-  if(cat == 'shop') {
+//   if(cat == 'shop') {
 
-    var categorizedStore = place.types.some(function(placeType){
-                      return (storeTypes.indexOf(placeType) > -1);
-                    });
-    var storeInclude = uncategorizedStoreInclude.indexOf(place.name) > -1;
-    if(categorizedStore || storeInclude){
-      marker = makeMarker('#40AD48', placeLoc, place); 
-    }
-  }
-  if(cat == 'dine') marker = makeMarker('#EC008B', placeLoc, place);
-  if(cat == 'drink') marker = makeMarker('#00ADEF', placeLoc, place);
-  return marker;
-}
+//     var categorizedStore = place.types.some(function(placeType){
+//                       return (storeTypes.indexOf(placeType) > -1);
+//                     });
+//     var storeInclude = uncategorizedStoreInclude.indexOf(place.name) > -1;
+//     if(categorizedStore || storeInclude){
+//       marker = makeMarker('#40AD48', placeLoc, place); 
+//     }
+//   }
+//   if(cat == 'dine') marker = makeMarker('#EC008B', placeLoc, place);
+//   if(cat == 'drink') marker = makeMarker('#00ADEF', placeLoc, place);
+//   return marker;
+// }
 
 function createInfoWindows(markers){
   for (var i = 0; i < markers.length; i++) {
@@ -253,7 +254,6 @@ function createInfoWindow(marker, placeReference){
 
 function changeCategory(sender){
   sender.className = sender.options[sender.selectedIndex].innerHTML.toLowerCase();;
-  //hideMarkers(sender.value)
   infowindow.close();
   NEIGHBORHOOD.switchLayer(sender.value, map, placesService);
 }
@@ -267,12 +267,6 @@ function addClickEvent(ele){
         this.dispatchEvent(evt);
     }
   }
-}
-
-function showMarkers(markersArray){
-  markersArray.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(true);
-    });
 }
 
 function setNeighborhood(event){
