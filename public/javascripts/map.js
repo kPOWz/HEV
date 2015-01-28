@@ -252,7 +252,7 @@ function createInfoWindow(marker, placeReference){
 }
 
 function changeCategory(sender){
-  sender.className = sender.dataset.class;
+  sender.className = sender.options[sender.selectedIndex].innerHTML.toLowerCase();;
   //hideMarkers(sender.value)
   infowindow.close();
   NEIGHBORHOOD.switchLayer(sender.value, map, placesService);
