@@ -40,58 +40,6 @@ function initialize() {
 
   //var bikeLayer = new google.maps.BicyclingLayer();
   //bikeLayer.setMap(map);
-
-  // Define HEV boundary
-  //TODO: via KML instead  
-  // var hevCoords = [
-  //     new google.maps.LatLng(41.59533840000001,-93.6163902),
-  //     new google.maps.LatLng(41.5945761, -93.6168087),
-  //     new google.maps.LatLng(41.5940947, -93.6171305),
-  //     new google.maps.LatLng(41.59387, -93.6171734),
-  //     new google.maps.LatLng(41.5936855, -93.61730220000001),
-  //     new google.maps.LatLng(41.5924899, -93.6178815),
-  //     new google.maps.LatLng(41.5919042, -93.6179888),
-  //     new google.maps.LatLng(41.5916554, -93.6179459),
-  //     new google.maps.LatLng(41.5892482, -93.6172056),
-  //     new google.maps.LatLng(41.5891519, -93.617152),
-  //     new google.maps.LatLng(41.5889352, -93.6171198),
-  //     new google.maps.LatLng(41.5887266, -93.6169696),
-  //     new google.maps.LatLng(41.587892, -93.616755),
-  //     new google.maps.LatLng(41.5860464, -93.6160254),
-  //     new google.maps.LatLng(41.585934, -93.6158538),
-  //     new google.maps.LatLng(41.5848587, -93.6155105),
-  //     new google.maps.LatLng(41.5828043, -93.6147594),
-  //     new google.maps.LatLng(41.582659899999996, -93.6145878),
-  //     new google.maps.LatLng(41.5821302, -93.6142445),
-  //     new google.maps.LatLng(41.5819215, -93.6139441),
-  //     new google.maps.LatLng(41.5810066, -93.612442),
-  //     new google.maps.LatLng(41.5802844, -93.6110044),
-  //     new google.maps.LatLng(41.5792089, -93.6082578),
-  //     new google.maps.LatLng(41.5787435, -93.6065626),
-  //     new google.maps.LatLng(41.5784706, -93.6062407),
-  //     new google.maps.LatLng(41.57845449999999, -93.6058116),
-  //     new google.maps.LatLng(41.577860599999994, -93.604331),
-  //     new google.maps.LatLng(41.5775717, -93.6033225),
-  //     new google.maps.LatLng(41.57668890000001, -93.600812),
-  //     new google.maps.LatLng(41.5766889, -93.6004901),
-  //     new google.maps.LatLng(41.5763999, -93.5994601),
-  //     new google.maps.LatLng(41.5759986, -93.5971427),
-  //     new google.maps.LatLng(41.59018700000001, -93.5969925),
-  //     new google.maps.LatLng(41.59581980000001, -93.5989666),
-  //     new google.maps.LatLng(41.5949532, -93.6032796),
-  //     new google.maps.LatLng(41.59484090000001, -93.6040306),
-  //     new google.maps.LatLng(41.5947767, -93.60467430000001),
-  //     new google.maps.LatLng(41.5947446, -93.6054683),
-  //     new google.maps.LatLng(41.5947767, -93.6065197),
-  //     new google.maps.LatLng(41.59533840000001, -93.6163902)
-  // ];
-  // neighborhoodPolygon = new google.maps.Polygon({
-  //   path: hevCoords,
-  //   strokeOpacity: 0,
-  //   fillColor: '#FCEDBD',
-  //   fillOpacity: 0.35, 
-  //   map: map   
-  // });
     
  requestCategorizedStore = {
       location: centerLatlng,
@@ -116,16 +64,10 @@ function initialize() {
       radius: 450,
       types: ['cafe', 'bar', 'night_club', 'lounge']
   };
-
-  // var hoodLayer = new google.maps.KmlLayer({
-  //   url: 'https://sites.google.com/site/hevdsm/kml/boundary.kml'
-  // }); 
-  // hoodLayer.setMap(map);
-
-  // var mapsEngineLayer = new google.maps.visualization.MapsEngineLayer({
-  //   layerId: '00463335882591727230-12798225287603138914',
-  //   map: map
-  // });
+  NEIGHBORHOOD.addRequest(0, requestCategorizedStore, storeCallback);
+  NEIGHBORHOOD.addRequest(0, requestUncategorizedStore, storeCallback);
+  NEIGHBORHOOD.addRequest(1, requestDrink, drinkCallback);
+  NEIGHBORHOOD.addRequest(2, requestDining, diningCallback);
 
   kmlLayer = new google.maps.FusionTablesLayer({
     query: {
@@ -135,7 +77,7 @@ function initialize() {
     },
     styles:[{polygonOptions:{fillOpacity: 0.1, strokeColor: "#CC3333"}}]
   });
-  kmlLayer.setMap(map);
+  NEIGHBORHOOD.draw(kmlLayer, map);
 
   placesService = new google.maps.places.PlacesService(map);
   infowindow = new google.maps.InfoWindow();
@@ -196,6 +138,8 @@ function callback(results, status, pagination, markers) {
 	 	pagination.nextPage();
 	}else{
     console.log(resultsCount);
+    var cat = document.getElementById('select-cat');
+    if(cat) NEIGHBORHOOD.addLayer(cat.value, markers);
     createInfoWindows(markers);
   }
 }
@@ -217,7 +161,8 @@ function createMarker(place) {
   var placeLoc = place.geometry.location;
   var iconUrl;
 
-  var cat = document.getElementById('select-cat').value;
+  var cat = document.getElementById('select-cat');
+  if(cat) cat = cat.options[cat.selectedIndex].innerHTML.toLowerCase();
 
   if(cat == 'shop') {
 
@@ -242,7 +187,8 @@ function createInfoWindows(markers){
 
 function createInfoWindow(marker, placeReference){
   google.maps.event.addListener(marker, 'click', function() {
-    var cat = document.getElementById('select-cat').value;
+    var cat = document.getElementById('select-cat');
+    if(cat) cat = cat.options[cat.selectedIndex].innerHTML.toLowerCase();
     var generatedMarkerId = getMarkerUniqueId(marker.getPosition().lat(), marker.getPosition().lng());
     if(storeMarkers.length > 0 && cat == 'shop'){
       var markerMatch = storeMarkers.filter(function( obj ) {
@@ -306,62 +252,12 @@ function createInfoWindow(marker, placeReference){
 }
 
 function changeCategory(sender){
-  sender.className = sender.value; 
-  hideMarkers(sender.value)
+  sender.className = sender.dataset.class;
+  //hideMarkers(sender.value)
   infowindow.close();
-
-  var infoPane = document.getElementById('place-detail-pane-close');
-  if(infoPane) infoPane.click();
-
-  if(map.getZoom() < 17) map.setZoom(17);
-
-  if(sender.value == 'shop') {
-    if(storeMarkers.length > 0) showMarkers(storeMarkers);
-    else {
-      placesService.nearbySearch(requestCategorizedStore, storeCallback);
-      placesService.nearbySearch(requestUncategorizedStore, storeCallback);
-    }
-  }
-  if(sender.value == 'dine') {
-    if(diningMarkers.length > 0) showMarkers(diningMarkers);
-    else placesService.nearbySearch(requestDining, diningCallback);
-  }
-  if(sender.value == 'drink') {
-    if(drinkMarkers.length > 0) showMarkers(drinkMarkers);
-    else placesService.nearbySearch(requestDrink, drinkCallback);
-  }
+  NEIGHBORHOOD.switchLayer(sender.value, map, placesService);
 }
 
-function hideMarkers(category){
-
-  if(category == 'shop') {
-    diningMarkers.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(false);
-    });
-    drinkMarkers.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(false);
-    });
-  }
-
-  if(category == 'dine') {
-    storeMarkers.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(false);
-    });
-    drinkMarkers.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(false);
-    });
-  }
-
-  if(category == 'drink') {
-    storeMarkers.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(false);
-    });
-    diningMarkers.forEach(function(markerContainer){
-      markerContainer.marker.setVisible(false);
-    });
-  }
-
-}
 
 function addClickEvent(ele){
   if(typeof ele!='undefined' && !ele.click) {
