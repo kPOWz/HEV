@@ -86,6 +86,6 @@ var NEIGHBORHOOD = (function(){
       }else{
         kmlLayer.setMap(null);
       }
-	}
+   }
   };
 })();
