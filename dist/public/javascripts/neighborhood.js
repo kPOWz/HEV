@@ -62,10 +62,10 @@ var NEIGHBORHOOD = (function(){
     	if(map.getZoom() < 17) map.setZoom(17);
     },
     addRequest : function(key, request, callback){
-		if(requests[key] == undefined){
-	  		requests[key] = [{ request: request, callback : callback}];}
-		else{
-  			requests[key].push({ request: request, callback : callback});}
+  		if(requests[key] == undefined){
+  	  		requests[key] = [{ request: request, callback : callback}];}
+  		else{
+    			requests[key].push({ request: request, callback : callback});}
     },
     addLayer : function(key, layer){
       if(layers[key] == undefined) layers[key] = layer; //layer may be marker set
