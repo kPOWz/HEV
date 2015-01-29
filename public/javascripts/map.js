@@ -1,15 +1,11 @@
 var map, placesService, resultList, infowindow, kmlLayer;
+var places = [];
 
 var uncategorizedStoreInclude = ['Bargain Basket', 'Liberty Gifts', 'Hammer Pharmacy', 'Ephemera', 'Found Things', 'Jett and Monkey\'s Dog Shoppe'
   , 'Subsect Skateboard Shop', 'Vanity & Glamour Cosmetics / VGCosmetic Makeup Artists','Porch Light', 'Green Goods For The Home', 'Metroretro'];
 
 var storeTypes = ['furniture_store','clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store'
       ,'shoe_store','grocery_or_supermarket', 'art_gallery' , 'book_store','thrift_store'];
-
-var storeMarkers = [];
-var diningMarkers = [];
-var drinkMarkers = [];
-var serviceMarkers = [];
 
 function initialize() {
   var centerLatlng = new google.maps.LatLng(41.58950,-93.612);
@@ -60,10 +56,10 @@ function initialize() {
       radius: 450,
       types: ['cafe', 'bar', 'night_club', 'lounge']
   };
-  NEIGHBORHOOD.addRequest(0, requestCategorizedStore, storeCallback);
-  NEIGHBORHOOD.addRequest(0, requestUncategorizedStore, storeCallback);
-  NEIGHBORHOOD.addRequest(1, requestDrink, drinkCallback);
-  NEIGHBORHOOD.addRequest(2, requestDining, diningCallback);
+  NEIGHBORHOOD.addRequest(0, requestCategorizedStore, callback);
+  NEIGHBORHOOD.addRequest(0, requestUncategorizedStore, callback);
+  NEIGHBORHOOD.addRequest(1, requestDrink, callback);
+  NEIGHBORHOOD.addRequest(2, requestDining, callback);
   PLACE.addCustomCategory(0, storeTypes, uncategorizedStoreInclude);
 
   kmlLayer = new google.maps.FusionTablesLayer({
@@ -82,49 +78,34 @@ function initialize() {
 
 }
 
-function storeCallback(results, status, pagination) {
-  callback(results, status, pagination, storeMarkers) 
-}
-
-function diningCallback(results, status, pagination) {
-  callback(results, status, pagination, diningMarkers) 
-}
-
-function drinkCallback(results, status, pagination) {
-  callback(results, status, pagination, drinkMarkers) 
-}
-
-function serviceCallback(results, status, pagination) {
-  callback(results, status, pagination, serviceMarkers);
-}
-
-function callback(results, status, pagination, markers) {
+function callback(results, status, pagination) {
   var resultsCount = 0;
+
 	if(status != google.maps.places.PlacesServiceStatus.OK){
 		return;
 	}
   var cat = document.getElementById('select-cat');
   if(cat) var key = cat.value;
 
-	createMarkers(results, markers, key);
+	createPlaces(results, places, key);
   resultsCount += results.length;
 
 	if (pagination.hasNextPage) {	 	
 	 	pagination.nextPage();
 	}else{
     console.log(resultsCount);
-    if(cat) NEIGHBORHOOD.addLayer(key, markers);
-    createInfoWindows(markers);
+    if(cat) NEIGHBORHOOD.addLayer(key, places);
+    createInfoWindows(places);
   }
 }
 
-function createMarkers(pagedResults, markers, key){
+function createPlaces(pagedResults, places, key){
 	for (var i = 0; i < pagedResults.length; i++) {
     var place = pagedResults[i];
 		var marker = PLACE.createMarker(map, place, key);
     if(marker && marker.getPosition()){
       var generatedMarkerId = PLACE.getMarkerUniqueId(marker.getPosition().lat(), marker.getPosition().lng());
-      markers.push({markerId: generatedMarkerId, marker: marker, reference: place.reference});
+      places.push({markerId: generatedMarkerId, marker: marker, reference: place.reference});
     }
   }
 }
@@ -136,6 +117,7 @@ function createInfoWindows(markers){
 }
 
 function changeCategory(sender){
+  places = [];
   sender.className = sender.options[sender.selectedIndex].innerHTML.toLowerCase();;
   infowindow.close();
   NEIGHBORHOOD.switchLayer(sender.value, map, placesService);
