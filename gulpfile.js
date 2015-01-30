@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-minify-css');
+var concat = require('gulp-concat');
 
 // // Lint JS
 // gulp.task('lint', function() {
@@ -23,6 +24,7 @@ gulp.task('minifyCSS', function(){
 // Concat & Minify JS
 gulp.task('minifyJS', function(){
   return gulp.src('public//javascripts//*.js')  
+    .pipe(concat('map.js'))
     .pipe(uglify())
     .pipe(rename('map.min.js'))
     .pipe(gulp.dest('dist//public//javascripts'));

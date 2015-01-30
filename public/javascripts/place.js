@@ -2,7 +2,7 @@
 //depends on google maps api 
 //make map configurable
 //make colors configurable
-var MARKER = (function(){
+var PLACE = (function(){
 
 	// var colors = {
 	// 	shop : '#40AD48',
@@ -10,6 +10,8 @@ var MARKER = (function(){
 	// 	drink : '#00ADEF'
 	// }
 	var colors = ['#40AD48','#EC008B','#00ADEF']
+	var placeFilter = {};
+	var exceptions = {};
 	var getMarkerUniqueId= function(lat, lng) {
 	    return lat + '_' + lng;
 	}
@@ -37,10 +39,23 @@ var MARKER = (function(){
 	return{
 		createMarker : function(map, place, key){
 			var placeLoc = place.geometry.location;
-	  		return makeMarker(colors[key], placeLoc, place);
+			var categorized, exception;
+			if(placeFilter[key]){
+			 	categorized= place.types.some(function(placeType){
+                      return (placeFilter[key].categories.indexOf(placeType) > -1);
+                    });
+    			exception = placeFilter[key].exceptions.indexOf(place.name) > -1;
+			}
+			if(placeFilter[key] == undefined || categorized || exception)
+	  			return makeMarker(colors[key], placeLoc, place);
     	},	
     	getMarkerUniqueId : function(lat, lng){
 	    	return lat + '_' + lng;
+		}, 
+		//filters places service results
+		addCustomCategory : function(key, categories, exceptions){
+  			placeFilter[key] = { categories: categories, exceptions : exceptions};
+
 		}
 	}  
 
