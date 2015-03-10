@@ -2,9 +2,9 @@ requirejs.config({
     "baseUrl": "javascripts/lib",
     "paths": {
       "app": "..",
-      "google_maps": "//maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBL0KrKrs7oKIS0Dlo3s9-ktwCt2iwCE1s&sensor=false&libraries=places,visualization"
+      "promises_poly": "https://www.promisejs.org/polyfills/promise-done-6.1.0.min",
     }
 });
 
 // Load the main app module to start the app
-requirejs(["app/map.min"]);
+requirejs(["app/main"]);
