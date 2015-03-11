@@ -59,8 +59,8 @@ var storeTypes = ['furniture_store','clothing_store','bicycle_store','home_goods
   };
   NEIGHBORHOOD.addRequest(0, requestCategorizedStore, callback);
   NEIGHBORHOOD.addRequest(0, requestUncategorizedStore, callback);
-  NEIGHBORHOOD.addRequest(1, requestDrink, callback);
-  NEIGHBORHOOD.addRequest(2, requestDining, callback);
+  NEIGHBORHOOD.addRequest(2, requestDrink, callback);
+  NEIGHBORHOOD.addRequest(1, requestDining, callback);
   PLACE.addCustomCategory(0, storeTypes, uncategorizedStoreInclude);
 
   kmlLayer = new google.maps.FusionTablesLayer({
