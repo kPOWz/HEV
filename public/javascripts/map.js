@@ -7,7 +7,8 @@ var uncategorizedStoreInclude = ['Bargain Basket', 'Liberty Gifts', 'Hammer Phar
 var storeTypes = ['furniture_store','clothing_store','bicycle_store','home_goods_store','jewelry_store','pet_store'
       ,'shoe_store','grocery_or_supermarket', 'art_gallery' , 'book_store','thrift_store'];
 
-function initialize() {
+//function initialize() {
+(function(){
   var centerLatlng = new google.maps.LatLng(41.58950,-93.612);
   var styles = [
   	{ featureType: "road", elementType: "geometry.fill", stylers: [ { color: "#cccccc" } ] },
@@ -76,7 +77,8 @@ function initialize() {
   infowindow = new google.maps.InfoWindow();
   google.maps.event.addListener(map, 'zoom_changed', setNeighborhood);
 
-}
+//}
+})();
 
 function callback(results, status, pagination) {
   var resultsCount = 0;
@@ -132,4 +134,4 @@ function setNeighborhood(event){
   }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize); 
+// google.maps.event.addDomListener(window, 'load', initialize); 

@@ -2,9 +2,12 @@ requirejs.config({
     "baseUrl": "javascripts/lib",
     "paths": {
       "app": "..",
-      "promises_poly": "https://www.promisejs.org/polyfills/promise-done-6.1.0.min",
     }
 });
 
 // Load the main app module to start the app
-requirejs(["app/main"]);
+define([ 'google-maps-loader', 'modernizr.custom.63874'], function(GoogleMapsLoader){
+		GoogleMapsLoader.then(function(){
+			requirejs(['app/map.min']);
+		}, function(error){ console.error("ERROR: Google maps library failed to load"); });
+	});

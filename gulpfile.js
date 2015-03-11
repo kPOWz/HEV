@@ -23,7 +23,8 @@ gulp.task('minifyCSS', function(){
 
 // Concat & Minify JS
 gulp.task('minifyJS', function(){
-  return gulp.src('public//javascripts//*.js')  
+  return gulp.src(['public//javascripts//neighborhood.js', 'public//javascripts//place.js'
+    , 'public//javascripts//map.js', 'public//javascripts//infoWindow.js'])  
     .pipe(concat('map.js'))
     .pipe(uglify())
     .pipe(rename('map.min.js'))
